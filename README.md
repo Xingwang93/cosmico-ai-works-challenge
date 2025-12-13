@@ -1,0 +1,1 @@
+# cosmico-ai-works-challenge
