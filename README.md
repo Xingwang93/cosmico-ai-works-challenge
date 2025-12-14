@@ -1,113 +1,98 @@
-Fitprint
+# Fitprint — Anti-Portfolio AI-Native
 
-The Anti-Portfolio Generator
+**Il CV racconta il passato. Fitprint misura il potenziale.**
 
-Fitprint è un generatore di anti-portfolio AI-native che trasforma dati grezzi (CV, LinkedIn, progetti, risposte personali) in una pagina web che racconta come una persona pensa, lavora e rende al massimo, non solo cosa ha fatto in passato.
+Fitprint è un **generatore di anti-portfolio AI-native** che trasforma dati grezzi (CV, LinkedIn, testo libero) e risposte personali in una **pagina HTML unica**, focalizzata su *come una persona pensa, lavora, reagisce e rende*, non su job title o keyword.
 
-In un mondo in cui l’AI esegue sempre meglio, Fitprint sposta il focus su ciò che resta umano:
-decision-making, pattern comportamentali, gestione dello stress, stile di collaborazione, fit con team e contesti.
+Non ottimizza il CV.  
+Sostituisce il concetto di CV.
 
-🔍 Cos’è Fitprint (in breve)
+---
 
-Non è un CV potenziato
+## 🧠 Cos’è Fitprint
 
-Non è un portfolio tradizionale
+Fitprint crea una **impronta professionale** basata su *Human Signals*:
 
-È una impronta professionale basata su Human Signals
+- pattern cognitivi (come ragioni e decidi)
+- pattern comportamentali (ritmo, affidabilità, stile operativo)
+- risposta allo stress e al fallimento
+- condizioni di massima/minima energia
+- fit con team, leader e contesti
+- metodo ricorrente (“signature method”)
+- vantaggio competitivo reale (non generico)
 
-Fitprint genera una singola pagina HTML che mostra:
+Il risultato è una **single-page HTML** leggibile, concreta, testabile.
 
-COME una persona ragiona e decide
+---
 
-IN QUALI CONDIZIONI rende davvero
+## 🎯 Perché è “anti-portfolio”
 
-CHE TIPO DI TEAM / LEADER la fanno funzionare
+Il portfolio tradizionale:
+- elenca ruoli
+- mostra output finali
+- ottimizza keyword
 
-PROVE CONCRETE, senza gonfiare numeri o titoli
+Fitprint invece:
+- mostra il **processo**
+- espone il **fit reciproco**
+- rende visibile ciò che normalmente emerge solo *dopo mesi di lavoro*
 
-🧠 Cosa rende Fitprint “anti-traditional”
+---
 
-Zero struttura “Esperienza / Educazione / Skills”
+## ⚙️ Come funziona (in breve)
 
-Job title non centrali
+1. **Input (Typeform)**
+   - CV / LinkedIn (testo incollato)
+   - Progetti e attività rilevanti
+   - 5 domande narrative sulla persona (stress, fallimenti, conflitti, energia, motivazione)
 
-Fallimenti e stress trattati come segnali, non debolezze
+2. **Elaborazione (Zapier + LLM API)**
+   - Analisi dei dati
+   - Estrazione Human Signals
+   - Scelta autonoma di struttura narrativa e layout
 
-Fit reciproco (non solo “perché dovrei assumerti”, ma anche “quando non funzioniamo”)
+3. **Output**
+   - Generazione automatica di **HTML completo**
+   - Pubblicazione su **GitHub Pages**
+   - Link pubblico condivisibile
 
-Output diverso per ogni persona (layout + narrativa)
+---
 
-⚙️ Come funziona il tool
-1. Input (5 minuti)
+## 🧩 Cosa viene generato
 
-L’utente compila un form con:
+Ogni Fitprint include almeno:
 
-Testo CV / LinkedIn
+- Header narrativo (non job title)
+- Sezione **Human Signals** (6–10 segnali spiegati)
+- Sezione **Come lavora quando conta**
+- Sezione **Proof** (progetti, risultati, evidenze)
+- Sezione **Fit** (mi accende / mi spegne / contesti ideali)
+- Call-to-Action finale
 
-Progetti rilevanti
+Ogni layout è **diverso**: nessun template fisso.
 
-Descrizione informale (“chi sei al bar”)
+---
 
-5 domande narrative sulla vita reale (stress, fallimenti, conflitti, energia)
+## 🛠 Stack tecnico
 
-2. Analisi AI
+- **Typeform** – raccolta dati
+- **Zapier** – orchestrazione
+- **OpenAI API** – generazione contenuti
+- **GitHub Pages** – hosting portfolio
 
-Un LLM:
+Approccio: **No-Code / AI-First**, ottimizzato per rapidità e testabilità.
 
-Estrae Human Signals
+---
 
-Identifica pattern cognitivi, comportamentali e motivazionali
+## 🚀 Come testarlo
 
-Costruisce una narrativa coerente e non standardizzata
+1. Compila il Typeform (link fornito dalla submission)
+2. Attendi la generazione automatica
+3. Ricevi via email il link al tuo Fitprint pubblico
 
-3. Output
+Tempo medio: **< 3 minuti**
 
-Generazione di una pagina HTML completa
+---
 
-Stile e layout adattati alla persona
+## 📁 Repository structure
 
-Pubblicazione automatica su GitHub Pages
-
-Link pubblico condivisibile
-
-🧩 Human Signals estratti
-
-Fitprint lavora su segnali come:
-
-Cognitive pattern (come prende decisioni)
-
-Stress response
-
-Failure learning loop
-
-Conflict style
-
-Energy conditions (quando rende / quando si spegne)
-
-Collaboration fit
-
-Signature method
-
-Unfair advantage reale
-
-🧪 Come testare Fitprint
-
-Apri il Typeform (link fornito nella submission)
-
-Compila il form (≈ 5 minuti)
-
-Ricevi via email il link al tuo Fitprint
-
-Visualizza l’anti-portfolio come pagina web pubblica
-
-Nessuna installazione locale necessaria.
-
-🛠 Stack tecnico (volutamente semplice)
-
-Typeform – raccolta input
-
-Zapier – orchestrazione
-
-OpenAI API – analisi + generazione
-
-GitHub Pages – hosting output HTML
