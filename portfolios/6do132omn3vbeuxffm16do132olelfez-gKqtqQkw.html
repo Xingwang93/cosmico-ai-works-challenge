@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitprint — Marco Colombo</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#0f1620;
+      --panel2:#0c121a;
+      --text:#e7eef8;
+      --muted:#a9b6c7;
+      --faint:#6f7f95;
+      --line:rgba(231,238,248,.10);
+      --accent:#6ee7ff;
+      --accent2:#a7ff6e;
+      --warn:#ffcf6e;
+      --danger:#ff6e6e;
+      --shadow: 0 18px 55px rgba(0,0,0,.42);
+      --radius:16px;
+      --radius2:12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 700px at 20% -10%, rgba(110,231,255,.12), transparent 55%),
+        radial-gradient(900px 600px at 90% 10%, rgba(167,255,110,.10), transparent 55%),
+        radial-gradient(700px 500px at 35% 105%, rgba(255,207,110,.08), transparent 50%),
+        var(--bg);
+      color:var(--text);
+      font-family:var(--sans);
+      line-height:1.45;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{
+      max-width:1040px;
+      margin:0 auto;
+      padding:22px 16px 44px;
+    }
+    .topbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:14px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .chipline{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+    }
+    .chip{
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(231,238,248,.06);
+      border:1px solid rgba(231,238,248,.10);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    header{
+      border:1px solid rgba(231,238,248,.12);
+      background: linear-gradient(180deg, rgba(15,22,32,.88), rgba(12,18,26,.88));
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      padding:18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(520px 260px at 10% 10%, rgba(110,231,255,.12), transparent 60%),
+        radial-gradient(520px 260px at 90% 0%, rgba(167,255,110,.10), transparent 60%);
+      pointer-events:none;
+      filter:saturate(1.05);
+    }
+    .hero{
+      position:relative;
+      display:grid;
+      gap:12px;
+      grid-template-columns: 1fr;
+      z-index:1;
+    }
+    .name{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    h1{
+      margin:0;
+      font-size:28px;
+      letter-spacing:-.4px;
+    }
+    .tag{
+      margin:6px 0 0;
+      font-size:14px;
+      font-family:var(--mono);
+      color:rgba(231,238,248,.88);
+      padding:8px 10px;
+      border-radius:10px;
+      background:rgba(110,231,255,.06);
+      border:1px solid rgba(110,231,255,.18);
+      display:inline-block;
+    }
+    .micro{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      max-width:72ch;
+    }
+    .contacts{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .contacts .k{
+      color:var(--faint);
+      font-family:var(--mono);
+      font-size:12px;
+    }
+    .sep{opacity:.35}
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media (min-width: 900px){
+      .grid{grid-template-columns: 1.05fr .95fr}
+      header{padding:20px}
+      h1{font-size:32px}
+    }
+    .card{
+      border:1px solid rgba(231,238,248,.10);
+      background: rgba(15,22,32,.68);
+      border-radius:var(--radius);
+      padding:16px 14px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.25);
+    }
+    .card.tight{padding:14px 12px}
+    .title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .title h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.2px;
+      text-transform:uppercase;
+      color:rgba(231,238,248,.90);
+    }
+    .title .meta{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--faint);
+      white-space:nowrap;
+    }
+    .subnote{
+      margin:-4px 0 12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .signals{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    @media (min-width: 700px){
+      .signals{grid-template-columns:1fr 1fr}
+    }
+    .sig{
+      border:1px solid rgba(231,238,248,.10);
+      background:rgba(12,18,26,.55);
+      border-radius:var(--radius2);
+      padding:12px 12px 11px;
+      min-height:84px;
+    }
+    .sig .n{
+      margin:0 0 6px;
+      font-size:14px;
+      letter-spacing:-.1px;
+      color:rgba(231,238,248,.92);
+    }
+    .sig .d{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .mechanics{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    @media (min-width: 900px){
+      .mechanics{grid-template-columns:1fr 1fr}
+    }
+    .mech{
+      border:1px solid rgba(231,238,248,.10);
+      background:rgba(12,18,26,.55);
+      border-radius:var(--radius2);
+      padding:12px;
+    }
+    .mech .h{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .mech .h .k{
+      font-family:var(--mono);
+      font-size:12px;
+      color:rgba(231,238,248,.78);
+      padding:6px 8px;
+      border-radius:10px;
+      border:1px solid rgba(231,238,248,.12);
+      background:rgba(231,238,248,.04);
+      white-space:nowrap;
+    }
+    .mech .h .k.good{border-color:rgba(167,255,110,.22); background:rgba(167,255,110,.06)}
+    .mech .h .k.warn{border-color:rgba(255,207,110,.22); background:rgba(255,207,110,.06)}
+    .mech .h .k.bad{border-color:rgba(255,110,110,.22); background:rgba(255,110,110,.06)}
+    .mech p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .prooflist{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .prooflist li{margin:8px 0}
+    .prooflist strong{color:rgba(231,238,248,.92); font-weight:650}
+    .fitgrid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    @media (min-width: 900px){
+      .fitgrid{grid-template-columns:1fr 1fr}
+    }
+    .fitbox{
+      border:1px solid rgba(231,238,248,.10);
+      background:rgba(12,18,26,.55);
+      border-radius:var(--radius2);
+      padding:12px;
+    }
+    .fitbox h3{
+      margin:0 0 8px;
+      font-size:13px;
+      letter-spacing:.2px;
+      text-transform:uppercase;
+      color:rgba(231,238,248,.92);
+    }
+    .fitbox ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .fitbox li{margin:7px 0}
+    .fitbox .label{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--faint);
+    }
+    .cta{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+      align-items:start;
+    }
+    @media (min-width: 900px){
+      .cta{grid-template-columns:1.1fr .9fr}
+    }
+    .cta .box{
+      border:1px solid rgba(231,238,248,.12);
+      background: linear-gradient(180deg, rgba(12,18,26,.58), rgba(15,22,32,.72));
+      border-radius:var(--radius);
+      padding:16px 14px;
+      box-shadow: 0 14px 42px rgba(0,0,0,.30);
+    }
+    .cta h2{margin:0 0 8px; font-size:14px; text-transform:uppercase; letter-spacing:.2px}
+    .cta p{margin:0; color:var(--muted); font-size:13px}
+    .cta .steps{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .cta .steps li{margin:7px 0}
+    .foot{
+      margin-top:16px;
+      color:var(--faint);
+      font-size:12px;
+      font-family:var(--mono);
+      border-top:1px solid rgba(231,238,248,.10);
+      padding-top:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>Fitprint — impronta operativa (non un CV)</div>
+      <div class="chipline">
+        <span class="chip">Freelance · junior ma “production-minded”</span>
+        <span class="chip">React / Node / Next / Python</span>
+        <span class="chip">Rendo con review & feedback</span>
+      </div>
+    </div>
+
+    <header>
+      <div class="hero">
+        <div class="name">
+          <div>
+            <h1>Marco Colombo</h1>
+            <div class="tag">Rendo quando c’è un problema reale e feedback rapido.</div>
+          </div>
+        </div>
+
+        <p class="micro">
+          Quando lavoro davvero, mi vedi fare tre cose: chiarire cosa stiamo consegnando (e cosa no), spezzare il lavoro in passi quotidiani,
+          e chiedere aiuto senza teatrini quando il blocco è tecnico. Mi accendo quando il codice finisce nelle mani di utenti reali, mi spengo quando resto solo a fissare un bug senza contesto né confronto.
+        </p>
+
+        <div class="contacts" aria-label="Contatti">
+          <span><span class="k">LinkedIn</span> <span class="sep">·</span> <a href="https://linkedin.com/in/marco-colombo-dev" target="_blank" rel="noopener">linkedin.com/in/marco-colombo-dev</a></span>
+          <span class="sep">|</span>
+          <span><span class="k">Email</span> <span class="sep">·</span> <a href="mailto:marco.colombo.dev@gmail.com">marco.colombo.dev@gmail.com</a> <span class="sep">/</span> <a href="mailto:stellaivano@gmail.com">stellaivano@gmail.com</a></span>
+          <span class="sep">|</span>
+          <span><span class="k">GitHub</span> <span class="sep">·</span> <a href="https://github.com/marcocolombodev" target="_blank" rel="noopener">github.com/marcocolombodev</a></span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <div class="title">
+          <h2>Human Signals (cose che noteresti lavorando con me)</h2>
+          <div class="meta">8 segnali osservabili</div>
+        </div>
+        <div class="signals">
+          <div class="sig">
+            <p class="n">Negozia lo scope prima di bruciarsi</p>
+            <p class="d">Sotto deadline stretta non “stringo i denti e basta”: porto sul tavolo scelte, fasi e date, anche se ho paura di sembrare lento.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Trasforma ansia in checklist giornaliera</p>
+            <p class="d">Quando la pressione sale, mi vedi passare da “tutto insieme” a “cosa faccio domani mattina alle 9”.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Chiede aiuto presto (senza farne un dramma)</p>
+            <p class="d">Se un problema tecnico mi inchioda, coinvolgo un senior/mentor: per me è efficienza, non debolezza.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Sotto-stima quando vuole “dimostrare”</p>
+            <p class="d">Nei primi progetti ho promesso velocità e ho pagato il conto. Ora metto margine e rinegozio appena vedo uno scarto.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Disaccordo = esperimento con scadenza</p>
+            <p class="d">Se non sono convinto, non faccio resistenza passiva: propongo “proviamo X fino a Y, poi misuriamo”.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Ha bisogno di una “tribù tecnica”</p>
+            <p class="d">Il mio picco arriva con review, confronto e lancio. Il mio minimo arriva in isolamento: bug profondo + silenzio = calo netto.</p>
+          </div>
+          <div class="sig">
+            <p class="n">Misura qualità con segnali concreti (es. performance)</p>
+            <p class="d">Non parlo di “qualità” in astratto: mi piace quando possiamo guardare numeri (Lighthouse, tempi di load, regressioni).</p>
+          </div>
+          <div class="sig">
+            <p class="n">Curiosità “profonda”, non solo framework</p>
+            <p class="d">Se mi dai spazio, finisco a studiare compilatori e design pattern: cerco di capire il perché sotto il come.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="title">
+          <h2>Scheda di funzionamento (quando conta davvero)</h2>
+          <div class="meta">decisioni · stress · errori</div>
+        </div>
+        <p class="subnote">
+          Non è teoria: è come mi muovo quando c’è un cliente, una scadenza e qualcosa che si rompe.
+        </p>
+
+        <div class="mechanics">
+          <div class="mech">
+            <div class="h">
+              <span class="k good">Decisioni</span>
+              <span class="k">trade-off espliciti</span>
+            </div>
+            <p>
+              Decido partendo dall’utente e dalle conseguenze: cosa cambia in UX, cosa costa in manutenzione, cosa rischiamo in performance.
+              Se la richiesta è ambigua, la faccio diventare una scelta binaria (fase 1 / fase 2) con criteri di accettazione.
+            </p>
+          </div>
+
+          <div class="mech">
+            <div class="h">
+              <span class="k warn">Sotto pressione</span>
+              <span class="k">piano giornaliero</span>
+            </div>
+            <p>
+              Il mio antidoto allo stress è struttura: micro-piano giorno per giorno, comunicazione esplicita col cliente,
+              e un “canale di salvataggio” (mentor/review) quando il blocco tecnico rischia di farmi perdere ore.
+            </p>
+          </div>
+
+          <div class="mech">
+            <div class="h">
+              <span class="k">Disaccordi</span>
+              <span class="k good">voce critica costruttiva</span>
+            </div>
+            <p>
+              Prima ascolto per capire che priorità stanno difendendo. Poi dico i trade-off senza irrigidirmi.
+              Se restiamo distanti, propongo un test: “proviamo la tua strada per N giorni, poi guardiamo i risultati”.
+            </p>
+          </div>
+
+          <div class="mech">
+            <div class="h">
+              <span class="k bad">Quando qualcosa va storto</span>
+              <span class="k">evito la bugia comoda</span>
+            </div>
+            <p>
+              Se ho sbagliato stima o mi accorgo che una feature esplode, non copro: esplicito lo scarto e porto opzioni.
+              Ho imparato che “restare zitto e correre” produce solo due esiti: codice scadente o relazione rotta.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:12px;">
+      <div class="title">
+        <h2>Proof (cose verificabili, non promesse)</h2>
+        <div class="meta">se non ci sono numeri, non li invento</div>
+      </div>
+      <ul class="prooflist">
+        <li><strong>8+ progetti freelance consegnati on-time</strong> per startup/PMI (web app full stack).</li>
+        <li><strong>Launch day con primi ~50 utenti attivi subito</strong>: picco di energia quando il prodotto “tocca terra” e funziona.</li>
+        <li><strong>Dashboard analytics B2B</strong> (React + TypeScript + Node): consegna nei tempi e <strong>estensione contratto di 6 mesi</strong> per manutenzione + nuove feature.</li>
+        <li><strong>E-commerce</strong> con autenticazione, carrello, pagamenti e admin: <strong>95+ Lighthouse score</strong> dichiarato sul progetto.</li>
+        <li><strong>Side project habit tracking</strong> (Next.js + Firebase): <strong>200+ utenti</strong> (prevalentemente network personale) — lezione principale: retention e micro-UX cambiano tutto.</li>
+        <li><strong>Open source (React DevTools library)</strong>: hook adottati da <strong>50+ developer</strong>; imparata cultura di review e manutenzione su codebase grande.</li>
+        <li><span style="color:rgba(231,238,248,.80);">Nota onesta:</span> inglese dichiarato B1: ok per documentazione e collaborazione semplice, non per contesti dove serve negoziazione complessa in inglese h24.</li>
+      </ul>
+    </section>
+
+    <section class="card" style="margin-top:12px;">
+      <div class="title">
+        <h2>Mappa di Fit (dove rendo / dove creo attrito)</h2>
+        <div class="meta">qui dico anche dei no</div>
+      </div>
+
+      <div class="fitgrid">
+        <div class="fitbox">
+          <h3>Cosa mi accende</h3>
+          <ul>
+            <li>Quando posso <span class="label">consegnare qualcosa che utenti usano subito</span> (release, launch, feature “a terra”).</li>
+            <li>Quando c’è <span class="label">feedback rapido</span>: code review, pairing, confronto con un senior o un team che ragiona.</li>
+            <li>Quando il problema non è solo “scrivere codice”, ma <span class="label">capire vincoli e trade-off</span> (scope, tempi, impatto).</li>
+            <li>Quando performance e qualità sono <span class="label">misurabili</span>, non slogan.</li>
+          </ul>
+        </div>
+
+        <div class="fitbox">
+          <h3>Cosa mi spegne</h3>
+          <ul>
+            <li><span class="label">Isolamento prolungato</span>: giorni da solo su bug profondi senza confronto = calo di energia e fiducia.</li>
+            <li><span class="label">Scope elastico</span> (“tanto è solo una feature”) senza rinegoziazione di tempi/costi.</li>
+            <li>Leader o clienti che vogliono un <span class="label">sì-man</span> e si irritano quando metto sul tavolo rischi reali.</li>
+            <li>Contesti dove “urgente” è lo stato naturale e <span class="label">non esiste priorità</span>: lì finisco per fare solo triage.</li>
+          </ul>
+        </div>
+
+        <div class="fitbox">
+          <h3>Leader ideale (chi mi usa bene)</h3>
+          <ul>
+            <li>Una persona che apprezza <span class="label">trasparenza</span>: preferisce una stima con margine a una promessa eroica.</li>
+            <li>Qualcuno che lavora per <span class="label">ipotesi + verifica</span> (esperimenti con scadenza, decisioni basate su segnali).</li>
+            <li>Un leader che mi dà <span class="label">contesto e criteri</span>, e poi mi lascia costruire (senza micro-gestione).</li>
+          </ul>
+        </div>
+
+        <div class="fitbox">
+          <h3>Team ideale (e team da evitare)</h3>
+          <ul>
+            <li><span class="label">Ideale:</span> team piccolo/medio, ritmo di consegna, review come abitudine, spazio per migliorare architettura senza paralisi.</li>
+            <li><span class="label">Ok (se c’è guida):</span> ambiente junior-friendly dove posso crescere su system design e scelte di scalabilità.</li>
+            <li><span class="label">Da evitare:</span> team che scambia la qualità per perfezionismo infinito o, all’opposto, che tratta il debito tecnico come “problema di domani” perenne.</li>
+          </ul>
+        </div>
+
+        <div class="fitbox" style="grid-column:1 / -1;">
+          <h3>Contesti dove è un errore mettermi (no netti)</h3>
+          <ul>
+            <li>Ruoli dove sono <span class="label">l’unico dev</span> senza review/mentorship: posso farcela, ma il rischio è diventare lento o bruciarmi nei momenti difficili.</li>
+            <li>Progetti dove l’obiettivo è solo “fare veloce” e <span class="label">nessuno difende l’utente</span>: lì divento oppositivo o disallineato.</li>
+            <li>Clienti che usano l’ambiguità come leva (“vediamo strada facendo”) e poi pretendono <span class="label">stesse date e stesso budget</span>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="margin-top:12px;">
+      <div class="title">
+        <h2>Cosa sto cercando ora</h2>
+        <div class="meta">condizioni, non titoli</div>
+      </div>
+      <p class="subnote" style="margin-bottom:0;">
+        Un contesto dove posso costruire e imparare sul serio: progetti con utenti e metriche, review e confronto tecnico come routine,
+        e abbastanza continuità da non vivere solo di “ticket urgenti”. Mi interessa lavorare su problemi di product engineering (performance, UX, architettura) più che su “siti vetrina” senza vita.
+      </p>
+    </section>
+
+    <section class="cta" style="margin-top:12px;">
+      <div class="box">
+        <h2>Call to Action (test di fit)</h2>
+        <p>
+          Se stai valutando di coinvolgermi, non partire da “ti mando il brief”.
+          Partiamo da una cosa piccola ma vera.
+        </p>
+        <ol class="steps">
+          <li>Mandami <strong>una feature</strong> che oggi ti crea ansia (per tempi, ambiguità o rischio tecnico) + 1 obiettivo utente.</li>
+          <li>In <strong>45 minuti</strong> la spacchetto in fasi, ti dico trade-off e ti propongo una stima con margine e criteri di accettazione.</li>
+          <li>Se ti torna, facciamo una <strong>prova di 48 ore</strong>: spike o prima versione vertical slice, con review e decisione “go/no-go”.</li>
+        </ol>
+      </div>
+
+      <div class="box">
+        <h2>Se questo non ti serve, meglio saperlo subito</h2>
+        <p>
+          Se cerchi qualcuno che dica sempre sì, che lavori settimane in silenzio senza confronto, o che “aggiusti al volo” senza mettere ordine nello scope:
+          probabilmente ti farò perdere tempo (e me lo farai perdere).
+        </p>
+        <div class="foot">
+          Preferisco pochi progetti, chiari, con feedback. Il resto lo lascio volentieri ad altri.
+        </div>
+      </div>
+    </section>
+
+    <div class="foot" style="margin-top:18px;">
+      Ultimo dettaglio operativo: quando la pressione sale, mi aiuta avere un canale di review (anche 20 minuti) e una priorità esplicita. Se non possiamo darci queste due cose, non è il contesto giusto.
+    </div>
+  </div>
+</body>
+</html>
