@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitprint — Laura Benedetti</title>
+  <style>
+    :root{
+      --bg:#F6F7F8;
+      --card:#FFFFFF;
+      --ink:#111827;
+      --muted:#4B5563;
+      --faint:#6B7280;
+      --line:#E5E7EB;
+      --accent:#0F766E; /* teal, nordic */
+      --accent2:#1F2937;
+      --warn:#B45309;
+      --bad:#B91C1C;
+      --good:#065F46;
+      --shadow: 0 10px 30px rgba(17,24,39,.06);
+      --radius: 16px;
+      --radius2: 12px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 15% 10%, rgba(15,118,110,.10), transparent 55%),
+                  radial-gradient(900px 500px at 85% 15%, rgba(17,24,39,.08), transparent 50%),
+                  var(--bg);
+      color:var(--ink);
+      font-family:var(--sans);
+      line-height:1.35;
+    }
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 22px 16px 56px;
+    }
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      padding: 12px 4px 6px;
+      color:var(--faint);
+      font-size:13px;
+    }
+    .badge{
+      font-family:var(--mono);
+      font-size:12px;
+      color: rgba(15,118,110,.95);
+      background: rgba(15,118,110,.10);
+      border: 1px solid rgba(15,118,110,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      white-space:nowrap;
+    }
+    header{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.76));
+      border: 1px solid rgba(229,231,235,.9);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(500px 220px at 18% 0%, rgba(15,118,110,.14), transparent 60%),
+                  radial-gradient(420px 260px at 85% 10%, rgba(17,24,39,.08), transparent 60%);
+      pointer-events:none;
+    }
+    .hgrid{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.4fr .9fr;
+      gap:16px;
+      align-items:start;
+    }
+    .name{
+      font-size: 30px;
+      letter-spacing:-0.02em;
+      margin:0 0 4px;
+      font-weight: 760;
+    }
+    .tagline{
+      margin:0 0 10px;
+      font-size: 16px;
+      color: var(--accent2);
+      font-weight: 650;
+    }
+    .who{
+      margin:0;
+      color: var(--muted);
+      font-size: 14.5px;
+      max-width: 60ch;
+    }
+    .meta{
+      background: rgba(255,255,255,.65);
+      border: 1px solid rgba(229,231,235,.95);
+      border-radius: var(--radius2);
+      padding: 12px;
+    }
+    .meta .row{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(229,231,235,.9);
+    }
+    .meta .row:last-child{border-bottom:0}
+    .k{
+      color: var(--faint);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing:.08em;
+    }
+    .v{
+      font-size: 13.5px;
+      color: var(--ink);
+      font-weight: 600;
+      text-align:right;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (min-width: 860px){
+      .grid{
+        grid-template-columns: 1.05fr .95fr;
+        gap: 14px;
+      }
+    }
+    section.card{
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(229,231,235,.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 16px;
+    }
+    .title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+      margin:0 0 10px;
+    }
+    h2{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.02em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+    .hint{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(17,24,39,.62);
+      white-space:nowrap;
+    }
+
+    .signals{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 560px){
+      .signals{grid-template-columns: 1fr 1fr;}
+    }
+    .sig{
+      border: 1px solid rgba(229,231,235,.95);
+      background: #fff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .sig b{
+      display:block;
+      font-size: 13.5px;
+      margin-bottom: 6px;
+      letter-spacing:-.01em;
+    }
+    .sig p{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .map{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    @media (min-width: 860px){
+      .map{grid-template-columns: 1fr 1fr;}
+    }
+    .box{
+      border-radius: 14px;
+      padding: 12px;
+      border: 1px solid rgba(229,231,235,.95);
+      background: #fff;
+    }
+    .box h3{
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing:-.01em;
+    }
+    .box ul{
+      margin:0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .box li{margin: 6px 0}
+    .good h3{color: var(--good)}
+    .bad h3{color: var(--bad)}
+    .warn h3{color: var(--warn)}
+    .neutral h3{color: var(--accent2)}
+
+    .ops{
+      display:grid;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .ops .step{
+      display:grid;
+      grid-template-columns: 112px 1fr;
+      gap: 12px;
+      align-items:start;
+      border: 1px solid rgba(229,231,235,.95);
+      background:#fff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .ops .label{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(15,118,110,.95);
+      background: rgba(15,118,110,.10);
+      border: 1px solid rgba(15,118,110,.18);
+      padding: 6px 8px;
+      border-radius: 999px;
+      width:max-content;
+    }
+    .ops .text{
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .ops .text b{color: var(--ink)}
+    .proof{
+      display:grid;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .proof .item{
+      border: 1px solid rgba(229,231,235,.95);
+      background:#fff;
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .proof .item .head{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:baseline;
+      margin-bottom: 6px;
+    }
+    .proof .item .head b{font-size: 14px}
+    .proof .item .head span{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(17,24,39,.62);
+      white-space:nowrap;
+    }
+    .proof p{
+      margin:0;
+      font-size: 13.5px;
+      color: var(--muted);
+    }
+    .divider{
+      height:1px;
+      background: linear-gradient(90deg, transparent, rgba(229,231,235,1), transparent);
+      margin: 12px 0;
+    }
+    .now, .cta{
+      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.80));
+    }
+    .now p, .cta p{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .cta .prompt{
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 12px;
+      background: rgba(15,118,110,.08);
+      border: 1px solid rgba(15,118,110,.20);
+    }
+    .cta .prompt b{
+      display:block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: var(--accent2);
+    }
+    .cta .prompt code{
+      font-family: var(--mono);
+      font-size: 12.5px;
+      color: rgba(17,24,39,.85);
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(229,231,235,.95);
+      padding: 2px 6px;
+      border-radius: 8px;
+    }
+    footer{
+      margin-top: 14px;
+      color: rgba(75,85,99,.9);
+      font-size: 12.5px;
+      padding: 0 4px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .smallcaps{
+      font-family: var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 11px;
+      color: rgba(75,85,99,.85);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="badge">FITPRINT / mappa di fit</div>
+      <div class="smallcaps">Customer Success • SaaS B2B • Italia ⇄ Nordics</div>
+    </div>
+
+    <header>
+      <div class="hgrid">
+        <div>
+          <h1 class="name">Laura Benedetti</h1>
+          <p class="tagline">Faccio rendere i clienti: ascolto, misuro, poi muovo persone.</p>
+          <p class="who">
+            Quando il lavoro è reale, io sono quella che tiene insieme due cose: la relazione e la prova.
+            Mi accendo quando posso entrare nel business del cliente, fare domande scomode con rispetto, e trasformare segnali sparsi in decisioni operative.
+            Se devo scegliere: meno “scartoffie”, più value visto dal cliente e numeri che lo dimostrano.
+          </p>
+        </div>
+        <aside class="meta" aria-label="contatti e contesto">
+          <div class="row">
+            <div class="k">Base</div>
+            <div class="v">Rientro in Italia (ex Copenhagen)</div>
+          </div>
+          <div class="row">
+            <div class="k">Focus</div>
+            <div class="v">B2B SaaS • Enterprise</div>
+          </div>
+          <div class="row">
+            <div class="k">Email</div>
+            <div class="v"><a href="mailto:stellaivano@gmail.com">stellaivano@gmail.com</a></div>
+          </div>
+          <div class="row">
+            <div class="k">LinkedIn</div>
+            <div class="v"><a href="https://linkedin.com/in/laura-benedetti-csm" target="_blank" rel="noopener">/in/laura-benedetti-csm</a></div>
+          </div>
+          <div class="row">
+            <div class="k">Lingue</div>
+            <div class="v">IT / EN / DA</div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card" aria-label="human signals">
+        <div class="title">
+          <h2>Human Signals</h2>
+          <div class="hint">cose che noti lavorandomi accanto</div>
+        </div>
+
+        <div class="signals">
+          <div class="sig">
+            <b>Prima ascolto, poi propongo (anche se ho già un’idea)</b>
+            <p>Ho imparato sulla mia pelle che “avere ragione tecnicamente” non salva un cliente: la svolta arriva quando capisco il loro contesto e le vere frizioni.</p>
+          </div>
+
+          <div class="sig">
+            <b>Quando sono in dubbio, cerco il confronto — non mi chiudo</b>
+            <p>Sotto stress non faccio finta di essere solida: chiedo supporto a mentor/amici, poi trasformo l’ansia in un piano passo-passo.</p>
+          </div>
+
+          <div class="sig">
+            <b>Uso i dati come lingua comune, non come scudo</b>
+            <p>Nei disaccordi porto metriche e fatti per rendere la conversazione decidibile (NRR, health score, time-to-value), senza annullare la parte umana.</p>
+          </div>
+
+          <div class="sig">
+            <b>Mi polarizza la burocrazia: se non serve al cliente, mi disallineo</b>
+            <p>Ho un radar forte per “processo che esiste per il processo”: se non genera valore, lo rimetto in discussione.</p>
+          </div>
+
+          <div class="sig">
+            <b>Mi rigenera il ritmo: cammino, incontro, connetto</b>
+            <p>La mia energia sale quando posso muovermi tra persone/contesti; crolla quando lavoro isolata a lungo (soprattutto nei momenti di errore).</p>
+          </div>
+
+          <div class="sig">
+            <b>Non vendo fumo: preferisco un “no” pulito a un “sì” ambiguo</b>
+            <p>Con C-level e team interni tendo a chiarire aspettative presto: promettere troppo è il modo più rapido per perdere fiducia.</p>
+          </div>
+
+          <div class="sig">
+            <b>Creo asset riusabili (guide, framework) quando vedo caos ripetuto</b>
+            <p>Se un problema torna, lo documento e lo standardizzo: onboarding template, guide interne, modelli di health scoring.</p>
+          </div>
+
+          <div class="sig">
+            <b>Community è un mio “muscolo”: la costruisco quando manca</b>
+            <p>Se il team è frammentato o il know-how resta in testa a pochi, mi viene naturale creare spazi di condivisione e rituali utili.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="mappa di fit">
+        <div class="title">
+          <h2>Mappa di fit</h2>
+          <div class="hint">dove funziono / dove rompo</div>
+        </div>
+
+        <div class="map">
+          <div class="box good">
+            <h3>Cosa mi accende</h3>
+            <ul>
+              <li>Clienti enterprise con problemi veri: adozione, allineamento interno, value non evidente.</li>
+              <li>Autonomia con responsabilità: “obiettivo chiaro, libertà sul come”.</li>
+              <li>Team che usa i numeri per decidere, non per fare reporting cosmetico.</li>
+              <li>Contesti internazionali o comunque “adult-to-adult”: feedback diretto e rispetto.</li>
+              <li>Costruire: processi leggeri, enablement, community interna/esterna.</li>
+            </ul>
+          </div>
+
+          <div class="box bad">
+            <h3>Cosa mi spegne (o crea attrito)</h3>
+            <ul>
+              <li>Politica interna e ambiguità cronica: “non dire troppo”, “rimandiamo”.</li>
+              <li>Promesse commerciali disancorate dalla realtà di prodotto: mi mette nella posizione di riparare fiducia bruciata.</li>
+              <li>Micromanagement: se ogni passo va approvato, rallento e mi disinnesco.</li>
+              <li>Isolamento: lavorare mesi “da sola sul ticketing” mi svuota.</li>
+            </ul>
+          </div>
+
+          <div class="box neutral">
+            <h3>Leader ideale (quello con cui rendo davvero)</h3>
+            <ul>
+              <li>Dice le cose in modo chiaro, anche quando sono scomode.</li>
+              <li>Mi chiede: “qual è la scelta più onesta verso il cliente?” prima di chiedermi “come la raccontiamo?”.</li>
+              <li>Accetta che io porti feedback dal cliente anche quando contraddice una narrativa interna.</li>
+              <li>Mi lascia costruire asset e sistemi, poi misura l’impatto.</li>
+            </ul>
+          </div>
+
+          <div class="box warn">
+            <h3>Team ideale / Team da evitare</h3>
+            <ul>
+              <li><b>Ideale:</b> CS + Sales + Product che si parlano davvero (QBR, roadmap, health review), con ownership chiara.</li>
+              <li><b>Da evitare:</b> CS usato come “cuscinetto emotivo” per compensare disfunzioni strutturali, senza potere di cambiare nulla.</li>
+              <li><b>Red flag:</b> “Qui i dati non contano” o “il cliente capirà” dopo promesse sbagliate.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="ops" aria-label="come lavoro quando conta">
+          <div class="title" style="margin:0 0 6px;">
+            <h2>Come lavoro quando conta</h2>
+            <div class="hint">meccanica concreta</div>
+          </div>
+
+          <div class="step">
+            <div class="label">Decisioni</div>
+            <div class="text">
+              Se devo scegliere una direzione, parto da <b>voce del cliente + metrica</b>.
+              Prima raccolgo segnali (call, dati d’uso, stakeholder map), poi decido cosa è “non negoziabile” e cosa è sperimentabile.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="label">Pressione</div>
+            <div class="text">
+              Quando la pressione sale, <b>non fingo controllo</b>: ammetto il panico con le persone giuste, poi lo traduco in piano operativo.
+              Se posso, chiedo aiuto (mentor/coach/colleghi) invece di irrigidirmi.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="label">Disaccordi</div>
+            <div class="text">
+              Se non sono d’accordo con qualcuno che conta, ascolto fino a capire la logica.
+              Se resta divergenza, vado diretta: <b>dati, esempi, conseguenze</b>. Gentile, ma non evasiva.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="label">Errori</div>
+            <div class="text">
+              Quando sbaglio, la cosa che mi ferisce di più è la fiducia persa.
+              Il mio recupero passa da: riconoscere l’errore, riallineare aspettative con il cliente, e <b>cambiare il comportamento</b> (non solo le parole).
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-label="proof">
+        <div class="title">
+          <h2>Proof (senza gonfiare)</h2>
+          <div class="hint">cose misurabili / osservabili</div>
+        </div>
+
+        <div class="proof">
+          <div class="item">
+            <div class="head">
+              <b>NRR portato a 128% (da 95%)</b>
+              <span>3 anni • enterprise</span>
+            </div>
+            <p>Non per “upsell aggressivo”: ho lavorato su expansion legata a valore e adozione, con QBR e allineamento stakeholder.</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Churn ridotto del 28% con health scoring proattivo</b>
+              <span>modello + routine</span>
+            </div>
+            <p>Ho costruito e implementato un modello di health score e una cadenza di intervento: meno sorprese, più prevenzione.</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Time-to-value dimezzato: 60 → 30 giorni</b>
+              <span>onboarding</span>
+            </div>
+            <p>Training e certificazioni: ho reso l’onboarding “eseguibile” e misurabile, non una sequenza di call senza esito.</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Gainsight implementato e adottato da 10 CSM</b>
+              <span>enablement</span>
+            </div>
+            <p>Ho guidato l’implementazione e scritto una guida interna che è diventata la reference quotidiana (quella che nessuno vuole, finché non serve).</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Framework CS “da zero” usato da 8+ startup europee</b>
+              <span>freelance</span>
+            </div>
+            <p>Template onboarding, metriche essenziali, health scoring: progetto personale diventato incarichi retribuiti. Numeri limitati, ma replicabilità alta.</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Community CS a Copenhagen: 150+ membri</b>
+              <span>co-founder</span>
+            </div>
+            <p>Meetup e knowledge sharing: ho visto quanto “appartenenza” e scambio pratico migliorano il lavoro, non solo l’umore.</p>
+          </div>
+
+          <div class="item">
+            <div class="head">
+              <b>Mentoring: 12 junior CSM</b>
+              <span>5 anni</span>
+            </div>
+            <p>Non è vanity: mi piace far crescere persone in contesti che scalano. Alcuni sono diventati senior altrove: prova indiretta di metodo.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card now" aria-label="cosa sto cercando ora">
+        <div class="title">
+          <h2>Cosa sto cercando ora</h2>
+          <div class="hint">condizioni, non etichette</div>
+        </div>
+        <p>
+          Sto rientrando in Italia e voglio lavorare dove il Customer Success non è “post-vendita gentile”, ma una leva reale di retention ed espansione.
+          Cerco un contesto che mi lasci mettere mano a <b>processi leggeri, metriche decisive, e conversazioni vere</b> con clienti e team interni.
+          Se posso anche costruire community (interna o esterna) e mentoring, mi accendo.
+        </p>
+      </section>
+
+      <section class="card cta" aria-label="call to action">
+        <div class="title">
+          <h2>Call to Action (test di fit)</h2>
+          <div class="hint">30 minuti, zero teatro</div>
+        </div>
+        <p>
+          Se vuoi capire se lavoreremmo bene insieme, non chiedermi “raccontami di te”.
+          Portami un caso reale e guardiamo come lo scompongo.
+        </p>
+
+        <div class="prompt">
+          <b>Mandami una mail con queste 4 righe (copiale):</b>
+          <p style="margin:0; color:var(--muted); font-size:13.5px;">
+            <code>1) Prodotto</code> (1 frase) &nbsp;•&nbsp;
+            <code>2) Cliente tipo</code> (ICP + ACV) &nbsp;•&nbsp;
+            <code>3) Problema</code> (churn/adozione/expansion) &nbsp;•&nbsp;
+            <code>4) Vincolo</code> (tempo, team, dati mancanti)
+          </p>
+          <div class="divider" style="margin:10px 0;"></div>
+          <p style="margin:0; color:var(--muted); font-size:13.5px;">
+            Io rispondo con: le 3 domande che farei al cliente, la metrica che userei per decidere, e la prima routine che metterei in piedi in 2 settimane.
+            Se ti suona utile, continuiamo. Se cerchi qualcuno che “mantenga la relazione” senza cambiare nulla, meglio fermarsi qui.
+          </p>
+        </div>
+        <div style="margin-top:10px; font-size:13.5px;">
+          <a href="mailto:stellaivano@gmail.com"><b>stellaivano@gmail.com</b></a>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      <div><span class="smallcaps">Nota di contesto</span> — rendo al massimo con fiducia + chiarezza + impatto misurabile.</div>
+      <div><span class="smallcaps">Filtro rapido</span> — se “value per il cliente” è uno slogan, non sono la persona giusta.</div>
+    </footer>
+  </div>
+</body>
+</html>
