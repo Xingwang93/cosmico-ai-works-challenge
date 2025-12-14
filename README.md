@@ -89,10 +89,3 @@ Approccio: **No-Code / AI-First**, ottimizzato per rapidità e testabilità.
 1. Compila il Typeform (link fornito dalla submission)
 2. Attendi la generazione automatica
 3. Ricevi via email il link al tuo Fitprint pubblico
-
-Tempo medio: **< 3 minuti**
-
----
-
-## 📁 Repository structure
-
