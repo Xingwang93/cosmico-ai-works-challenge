@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fitprint — Giulia Rossi</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#0f1621;
+      --ink:#eaf0f6;
+      --muted:#a9b6c6;
+      --soft:#7f90a6;
+      --line:rgba(234,240,246,.12);
+      --accent:#d6b36a;   /* caldo, editoriale */
+      --accent2:#7bd3c7;  /* freddo, analitico */
+      --danger:#ff6b6b;
+      --ok:#71e3a7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 700px at 12% -5%, rgba(214,179,106,.18), transparent 55%),
+        radial-gradient(900px 600px at 90% 0%, rgba(123,211,199,.14), transparent 50%),
+        linear-gradient(180deg, #070a0f 0%, var(--bg) 100%);
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.45;
+    }
+    a{color:var(--ink); text-decoration:none; border-bottom:1px solid rgba(234,240,246,.25)}
+    a:hover{border-bottom-color:rgba(214,179,106,.7)}
+    .wrap{
+      width:min(1040px, 92vw);
+      margin:22px auto 44px;
+    }
+    header{
+      padding:20px 18px 8px;
+    }
+    .top{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .name{
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing:.2px;
+      margin:0;
+      font-weight:750;
+    }
+    .role{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .tagline{
+      margin:12px 0 0;
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(15,22,33,.88), rgba(15,22,33,.55));
+      border-radius:14px;
+      font-weight:650;
+      letter-spacing:.2px;
+      max-width: 100%;
+    }
+    .tagline .dot{
+      width:9px;height:9px;border-radius:99px;
+      background:conic-gradient(from 180deg, var(--accent), var(--accent2), var(--accent));
+      box-shadow:0 0 0 4px rgba(214,179,106,.08);
+      flex:0 0 auto;
+    }
+    .intro{
+      margin:14px 0 0;
+      color:var(--ink);
+      max-width: 72ch;
+      font-size:15px;
+    }
+    .intro strong{color:var(--ink)}
+    .meta{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(15,22,33,.42);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    .pill b{color:var(--ink); font-weight:650}
+    .grid{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:14px;
+      margin-top:12px;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+    }
+    .card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(15,22,33,.80), rgba(15,22,33,.55));
+      border-radius:18px;
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:14px 16px 10px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .card .hd h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:var(--muted);
+      font-weight:750;
+    }
+    .card .hd .hint{
+      color:var(--soft);
+      font-size:12px;
+      text-transform:none;
+      letter-spacing:.02em;
+    }
+    .card .bd{padding:14px 16px 16px}
+    .signals{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .signal{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(234,240,246,.10);
+      background:rgba(11,15,20,.35);
+    }
+    .signal .t{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+    }
+    .signal .t b{
+      font-weight:760;
+      letter-spacing:.2px;
+    }
+    .badge{
+      font-size:11px;
+      color:rgba(234,240,246,.78);
+      padding:5px 8px;
+      border-radius:999px;
+      border:1px solid rgba(234,240,246,.14);
+      background:rgba(15,22,33,.45);
+      white-space:nowrap;
+    }
+    .signal p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .cols{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width: 620px){
+      .cols{grid-template-columns:1fr}
+    }
+    .box{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(234,240,246,.10);
+      background:rgba(11,15,20,.35);
+    }
+    .box h3{
+      margin:0 0 8px;
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--soft);
+    }
+    .box ul{
+      margin:0;
+      padding-left:16px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .box li{margin:8px 0}
+    .fitmap{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:12px;
+    }
+    .fitrow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      align-items:stretch;
+    }
+    @media (max-width: 720px){
+      .fitrow{grid-template-columns:1fr}
+    }
+    .good{border-left:4px solid var(--ok)}
+    .bad{border-left:4px solid var(--danger)}
+    .box.good h3{color:rgba(113,227,167,.85)}
+    .box.bad h3{color:rgba(255,107,107,.88)}
+    .proof{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .proof .item{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(234,240,246,.10);
+      background:rgba(11,15,20,.35);
+    }
+    .proof .item b{font-weight:760}
+    .proof .item p{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .cta{
+      margin-top:14px;
+      padding:16px;
+      border-radius:18px;
+      border:1px solid rgba(214,179,106,.28);
+      background:linear-gradient(180deg, rgba(214,179,106,.14), rgba(15,22,33,.55));
+    }
+    .cta h2{
+      margin:0 0 8px;
+      font-size:15px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:rgba(214,179,106,.92);
+    }
+    .cta p{
+      margin:0;
+      color:var(--ink);
+      font-size:14px;
+      max-width: 86ch;
+    }
+    .cta .steps{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 720px){
+      .cta .steps{grid-template-columns:1fr}
+    }
+    .step{
+      border:1px dashed rgba(234,240,246,.20);
+      background:rgba(11,15,20,.28);
+      border-radius:14px;
+      padding:12px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .step b{color:var(--ink)}
+    footer{
+      margin-top:18px;
+      padding:10px 18px 0;
+      color:var(--soft);
+      font-size:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="top">
+        <div>
+          <h1 class="name">Giulia Rossi</h1>
+          <p class="role">Art Director — agenzia di comunicazione (150+ persone)</p>
+          <div class="tagline"><span class="dot"></span><span>Faccio allineare strategia e bellezza, o mi spengo.</span></div>
+          <p class="intro">
+            Quando lavoro davvero bene, non “decoro”: traduco un obiettivo in una direzione visiva che regge alle domande difficili.
+            Mi accendo nelle stanze dove c’è fiducia e confronto vero (workshop, discovery, sintesi).
+            Vado in attrito quando la creatività diventa una catena di approvazioni scollegate: in quel contesto posso anche consegnare, ma perdo energia e precisione.
+          </p>
+        </div>
+        <div class="meta">
+          <span class="pill"><b>Email</b> <a href="mailto:stellaivano@gmail.com">stellaivano@gmail.com</a></span>
+          <span class="pill"><b>LinkedIn</b> <a href="https://linkedin.com/in/giulia-rossi-art-director" target="_blank" rel="noopener">/giulia-rossi-art-director</a></span>
+          <span class="pill"><b>Extra</b> fotografia • maratone • volontariato creativo</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <div class="hd">
+          <h2>Human Signals</h2>
+          <div class="hint">cose che noti lavorando con me</div>
+        </div>
+        <div class="bd">
+          <div class="signals">
+            <div class="signal">
+              <div class="t">
+                <b>Non vendo layout: rendo visibile il ragionamento</b>
+                <span class="badge">in meeting</span>
+              </div>
+              <p>Quando sento che le scelte vengono “smontate”, porto in slide la logica (obiettivi, trade-off, perché) prima delle immagini: alzo la qualità del feedback.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Sotto stress metto confini di processo, non faccio eroismi</b>
+                <span class="badge">scadenze</span>
+              </div>
+              <p>Se arrivano richieste continue, imposto checkpoint e riduco l’“always on”: preferisco ritmo e tracciabilità alle corse a vuoto.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Odio l’attrito silenzioso: lo porto in superficie</b>
+                <span class="badge">conflitto</span>
+              </div>
+              <p>Non esco da una stanza con tensione non detta: chiedo cosa sta guidando l’altro e poi dico “io la vedo diversa” con chiarezza.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Ho imparato a distinguere “gusto” da “direzione”</b>
+                <span class="badge">maturità</span>
+              </div>
+              <p>Dopo un rebrand troppo ambizioso che ha confuso il pubblico, oggi scarto più in fretta idee belle ma non utili al problema reale.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Mi energizza far crescere un junior mentre stringiamo la qualità</b>
+                <span class="badge">team</span>
+              </div>
+              <p>Quando mentoro, non “proteggo”: spiego criteri e chiedo ragioni. Paradossalmente mi calma anche nei momenti caotici.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Se il feedback è “a comitato”, la mia produttività resta ma la mia cura cala</b>
+                <span class="badge">segnale rosso</span>
+              </div>
+              <p>Riesco a consegnare anche in ambienti rumorosi, ma mi si spegne la parte che dà valore: sintesi, coraggio, coerenza nel tempo.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Mi fido dei dati morbidi: osservazione culturale e ricerca sul campo</b>
+                <span class="badge">input</span>
+              </div>
+              <p>Viaggio in hub di design per capire linguaggi visivi e differenze culturali: poi li traduco in decisioni pratiche, non in moodboard decorative.</p>
+            </div>
+
+            <div class="signal">
+              <div class="t">
+                <b>Quando una scelta non funziona, oggi faccio pivot senza teatrini</b>
+                <span class="badge">errori</span>
+              </div>
+              <p>Prima difendevo; ora cerco il punto in cui l’ipotesi ha fallito e cambio rotta. L’ego lo metto dopo l’obiettivo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd">
+          <h2>Come lavoro quando conta</h2>
+          <div class="hint">decisioni • pressione • disaccordi • inciampi</div>
+        </div>
+        <div class="bd">
+          <div class="cols">
+            <div class="box">
+              <h3>Decisioni</h3>
+              <ul>
+                <li>Parto da <span class="mono">contesto → comportamento → obiettivo</span>, poi arrivo al visual.</li>
+                <li>Se un’idea è forte ma non serve il business, la taglio: preferisco una direzione coerente a un “colpo di genio” isolato.</li>
+                <li>Mi piace la discovery: quando preparo bene, in workshop riesco a far “click” a stanza intera.</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Pressione</h3>
+              <ul>
+                <li>Quando aumentano cambi last-minute, smetto di inseguire e rimetto ordine: checkpoint, priorità esplicite, razionale scritto.</li>
+                <li>Il mio stress non nasce dal lavoro duro: nasce dal sentirmi <span class="mono">non ascoltata</span> mentre devo eseguire.</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Disaccordi reali</h3>
+              <ul>
+                <li>Prima faccio domande: voglio capire cosa sta guidando l’altro (vincoli, paure, metriche, politica interna).</li>
+                <li>Poi dico la mia in modo diretto: non “vinco” una discussione, chiarisco trade-off e conseguenze.</li>
+                <li>Non sopporto il non detto: se c’è tensione, la nomino (con timing, non a caldo).</li>
+              </ul>
+            </div>
+            <div class="box">
+              <h3>Quando qualcosa va storto</h3>
+              <ul>
+                <li>Ho sperimentato sulla pelle che “bello” può fare danni: se confonde il pubblico, si paga.</li>
+                <li>La correzione che faccio oggi è pratica: rivedo ipotesi, ripulisco messaggi, riallineo stakeholder, e torno a testare.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; padding:12px; border-radius:14px; border:1px solid rgba(234,240,246,.10); background:rgba(11,15,20,.35);">
+            <div style="color:var(--soft); text-transform:uppercase; letter-spacing:.12em; font-size:13px; margin-bottom:8px;">Il mio “massimo” vs il mio “spento”</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <div style="border-left:4px solid var(--ok); padding-left:10px;">
+                <div style="font-weight:750; margin-bottom:6px;">Al massimo</div>
+                <div style="color:var(--muted); font-size:13px;">
+                  Workshop con cliente + team creativo, ricerca fatta bene, poi sintesi: metto insieme audience, trend e obiettivi business finché la direzione diventa ovvia. La stanza si rilassa e riparte.
+                </div>
+              </div>
+              <div style="border-left:4px solid var(--danger); padding-left:10px;">
+                <div style="font-weight:750; margin-bottom:6px;">Spenta</div>
+                <div style="color:var(--muted); font-size:13px;">
+                  Tre progetti in parallelo, feedback contraddittori, richieste last-minute scollegate. “Andiamo avanti così” mentre la direzione si smonta a pezzi: mi siedo e non ho voglia di creare nulla.
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd">
+          <h2>Proof</h2>
+          <div class="hint">prove concrete, senza gonfiaggi</div>
+        </div>
+        <div class="bd">
+          <div class="proof">
+            <div class="item">
+              <b>Gestione simultanea di campagne complesse (3 in parallelo)</b>
+              <p>La parte osservabile non è “ho retto”: ho cambiato sistema quando stava collassando (razionale documentato, checkpoint, riduzione del rumore). Risultato: feedback più utile e riconoscimento più chiaro del mio ruolo.</p>
+            </div>
+            <div class="item">
+              <b>Workshop di discovery che sblocca la direzione</b>
+              <p>Ho esperienza nel far emergere e sintetizzare ciò che cliente e team “sentono” ma non sanno articolare, trasformandolo in una direzione visiva condivisa. Non ho numeri da esibire qui: è un impatto che si vede in allineamento e velocità decisionale.</p>
+            </div>
+            <div class="item">
+              <b>Fallimento reale: rebrand troppo audace → confusione → rollback</b>
+              <p>Il punto non è la caduta: è la correzione strutturale. Da lì ho cambiato criterio di scelta: obiettivo e comportamento prima dell’estetica. Oggi segnalo i rischi prima del lancio e preparo scenari di pivot.</p>
+            </div>
+            <div class="item">
+              <b>Mentoring operativo (non motivazionale)</b>
+              <p>Ho iniziato a far crescere un junior designer durante un periodo di pressione: trasmetto metodo (criteri, perché, trade-off) e alzo il livello del confronto interno.</p>
+            </div>
+            <div class="item">
+              <b>Ricerca continua fuori dall’agenzia</b>
+              <p>Fotografia e osservazione in hub di design (Copenaghen, Tokyo, Berlino): uso questi input come materiale di decisione, non come “ispirazione” fine a sé stessa.</p>
+            </div>
+            <div class="item">
+              <b>Volontariato: direzione artistica per non-profit (youth mentorship)</b>
+              <p>Quando il contesto ha senso, porto cura e rigore anche senza “gloria” di portfolio: mi interessa che il messaggio arrivi e che i ragazzi si sentano chiamati dentro, non fuori.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="hd">
+          <h2>Fit (per decidere in fretta)</h2>
+          <div class="hint">dove rendo / dove creo attrito</div>
+        </div>
+        <div class="bd">
+          <div class="fitmap">
+
+            <div class="fitrow">
+              <div class="box good">
+                <h3>Cosa mi accende</h3>
+                <ul>
+                  <li>Quando mi chiedi di <span class="mono">pensare</span> prima che di produrre: discovery, ricerca, sintesi, direzione.</li>
+                  <li>Quando la stanza è piccola e competente: poche persone, responsabilità chiare, feedback con un “perché”.</li>
+                  <li>Quando posso far convivere strategia e bellezza senza scusarmi.</li>
+                </ul>
+              </div>
+              <div class="box bad">
+                <h3>Cosa mi spegne</h3>
+                <ul>
+                  <li>“Fai e basta”: esecuzione senza ascolto, senza contesto, senza trade-off.</li>
+                  <li>Feedback a comitato, contraddittori e non mediati: la direzione si diluisce e io mi consumo.</li>
+                  <li>Urgenze continue spacciate per normalità (sempre last-minute = sempre mediocre).</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="fitrow">
+              <div class="box good">
+                <h3>Leader ideale</h3>
+                <ul>
+                  <li>Mi dà un obiettivo misurabile e mi chiede come arrivarci, non mi consegna la soluzione già “politicizzata”.</li>
+                  <li>Protegge la direzione creativa dal rumore: un canale di feedback, decision maker definito.</li>
+                  <li>Accetta che io dica “questa scelta è bella ma rischiosa” senza prenderla sul personale.</li>
+                </ul>
+              </div>
+              <div class="box bad">
+                <h3>Leader che dovrebbe evitarmi</h3>
+                <ul>
+                  <li>Chi usa la creatività come decorazione e vuole solo “far vedere che si è fatto”.</li>
+                  <li>Chi confonde controllo con qualità: mille micro-approvazioni, nessuna responsabilità vera.</li>
+                  <li>Chi preferisce il non detto: io lo porto sul tavolo.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="fitrow">
+              <div class="box good">
+                <h3>Team ideale</h3>
+                <ul>
+                  <li>Team cross-funzionale che regge una conversazione su obiettivi, audience e linguaggio visivo.</li>
+                  <li>Designer e copy che accettano critiche basate su criteri, non su gusti.</li>
+                  <li>Un junior da far crescere: mi dà energia e alza la disciplina del lavoro.</li>
+                </ul>
+              </div>
+              <div class="box bad">
+                <h3>Contesti da evitare (qui dico “no”)</h3>
+                <ul>
+                  <li>Ambienti in cui la creatività è una catena di compromessi e nessuno “firma” una scelta.</li>
+                  <li>Organizzazioni dove “strategia” significa slide e “design” significa stile: io lavoro sulla connessione tra le due.</li>
+                  <li>Ruoli dove devo difendere continuamente il valore del mio lavoro senza avere voce nella definizione del problema.</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <div style="margin-top:12px; padding:12px; border-radius:14px; border:1px solid rgba(234,240,246,.10); background:rgba(11,15,20,.35);">
+            <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;">
+              <div style="color:var(--soft); text-transform:uppercase; letter-spacing:.12em; font-size:13px;">Se mi metti nel posto sbagliato…</div>
+              <div class="badge" style="border-color:rgba(255,107,107,.25);">non esplodo: mi spengo</div>
+            </div>
+            <div style="margin-top:8px; color:var(--muted); font-size:13px;">
+              La mia frizione tipica non è “dramma”: è perdita di qualità. Divento più esecutiva, meno propositiva, e mi ritrovo a produrre varianti invece di guidare una direzione.
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top:14px;">
+      <div class="hd">
+        <h2>Cosa sto cercando ora</h2>
+        <div class="hint">condizioni, non etichette</div>
+      </div>
+      <div class="bd">
+        <div class="box" style="background:rgba(11,15,20,.30);">
+          <ul>
+            <li>Un contesto in cui la direzione creativa non è “servizio”: è parte della strategia e viene ascoltata.</li>
+            <li>Ritmo sostenibile: meno urgenze performative, più lavoro pensato e decisioni pulite.</li>
+            <li>Spazio per research e workshop seri (anche piccoli), non solo produzione in serie.</li>
+            <li>Una linea di mentoring reale: far crescere persone è parte del mio valore, non un hobby.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Call to Action (test di fit)</h2>
+      <p>
+        Se vuoi capire in 45 minuti se lavoreremmo bene insieme, portami <strong>un progetto reale</strong> con:
+        obiettivo, vincoli politici (se ci sono) e il tipo di audience che ti importa davvero.
+        Io ti restituisco una cosa sola: <strong>una direzione difendibile</strong> (e dove rischia di rompersi).
+      </p>
+      <div class="steps">
+        <div class="step">
+          <b>Tu</b>: mi mandi 1 pagina (o 10 bullet) con obiettivo, contesto, cosa non sta funzionando.
+        </div>
+        <div class="step">
+          <b>Io</b>: arrivo con 3 ipotesi di direzione + criteri di scelta (non moodboard).
+        </div>
+        <div class="step">
+          <b>Se scatta</b>: decidiamo un processo di feedback (pochi decisori, checkpoint fissi).
+        </div>
+        <div class="step">
+          <b>Se non scatta</b>: lo capiamo subito, senza trascinarci mesi di attrito “educato”.
+        </div>
+      </div>
+      <p style="margin-top:10px; color:var(--muted); font-size:13px;">
+        Scrivimi qui: <a href="mailto:stellaivano@gmail.com">stellaivano@gmail.com</a> — oggetto consigliato: <span class="mono">FIT / direzione creativa + vincoli</span>.
+      </p>
+    </section>
+
+    <footer>
+      <div>Fitprint — scritto in prima persona, pensato come filtro.</div>
+      <div class="mono">Giulia Rossi</div>
+    </footer>
+  </div>
+</body>
+</html>
