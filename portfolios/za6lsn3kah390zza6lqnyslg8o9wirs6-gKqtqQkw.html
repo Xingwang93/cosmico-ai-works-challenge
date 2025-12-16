@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fitprint — Rinaldo Festa</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --card:#0f1620;
+      --card2:#0c121b;
+      --ink:#e9eef7;
+      --muted:#a7b3c6;
+      --faint:#6f7f96;
+      --line:rgba(255,255,255,.10);
+      --accent:#65d6a6;
+      --accent2:#76a7ff;
+      --warn:#ffcc66;
+      --danger:#ff6b6b;
+      --shadow: 0 14px 40px rgba(0,0,0,.40);
+      --radius:18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      background:
+        radial-gradient(900px 500px at 14% 8%, rgba(101,214,166,.18), transparent 60%),
+        radial-gradient(900px 500px at 86% 12%, rgba(118,167,255,.18), transparent 55%),
+        radial-gradient(900px 600px at 50% 110%, rgba(255,204,102,.08), transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      line-height:1.35;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{
+      max-width:1080px;
+      margin:0 auto;
+      padding:28px 16px 56px;
+    }
+    header{
+      position:relative;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:22px 18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    header:before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(500px 240px at 12% 0%, rgba(101,214,166,.22), transparent 65%),
+        radial-gradient(520px 260px at 88% 0%, rgba(118,167,255,.22), transparent 60%);
+      opacity:.8;
+      pointer-events:none;
+    }
+    .header-grid{
+      position:relative;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
+      align-items:start;
+    }
+    .name{
+      font-size:30px;
+      letter-spacing:.2px;
+      margin:0 0 6px;
+      text-transform:capitalize;
+    }
+    .tagline{
+      margin:0 0 10px;
+      font-size:15px;
+      font-family:var(--mono);
+      color:rgba(233,238,247,.92);
+      border-left:3px solid var(--accent);
+      padding-left:10px;
+    }
+    .micro{
+      margin:0;
+      color:var(--muted);
+      max-width:65ch;
+      font-size:15px;
+    }
+    .meta{
+      border:1px solid var(--line);
+      background:rgba(15,22,32,.55);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    .meta .label{
+      font-family:var(--mono);
+      font-size:12px;
+      color:var(--faint);
+      letter-spacing:.2px;
+      margin-bottom:8px;
+    }
+    .meta .row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      margin:6px 0;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(12,18,27,.65);
+      font-family:var(--mono);
+      font-size:12px;
+      color:rgba(233,238,247,.85);
+    }
+    .chip b{
+      color:var(--ink);
+      font-weight:650;
+      font-family:var(--mono);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    section{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      border-radius:var(--radius);
+      padding:16px 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+    }
+    .full{grid-column: 1 / -1;}
+    h2{
+      margin:0 0 10px;
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(233,238,247,.86);
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    h2 .bar{
+      height:1px;
+      flex:1;
+      background:linear-gradient(90deg, rgba(101,214,166,.9), rgba(118,167,255,.35), transparent);
+      opacity:.8;
+    }
+    .note{
+      margin:10px 0 0;
+      padding:10px 12px;
+      border:1px dashed rgba(255,255,255,.16);
+      border-radius:12px;
+      background:rgba(12,18,27,.6);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .signals{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    .signal{
+      border:1px solid var(--line);
+      background:rgba(12,18,27,.55);
+      border-radius:14px;
+      padding:12px 12px;
+    }
+    .signal .title{
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:6px;
+    }
+    .signal h3{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .signal .tag{
+      font-family:var(--mono);
+      font-size:11px;
+      color:rgba(233,238,247,.72);
+      border:1px solid rgba(255,255,255,.12);
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(15,22,32,.45);
+      white-space:nowrap;
+    }
+    .signal p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .two-col{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    .box{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(12,18,27,.55);
+      padding:12px 12px;
+    }
+    .box h3{
+      margin:0 0 6px;
+      font-size:14px;
+    }
+    .box ul{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .box li{margin:7px 0}
+    .kpi{
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    .k{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(12,18,27,.55);
+      padding:12px 12px;
+      min-height:92px;
+    }
+    .k .n{
+      font-family:var(--mono);
+      font-size:18px;
+      color:var(--ink);
+      letter-spacing:.2px;
+      margin-bottom:6px;
+    }
+    .k .d{
+      color:var(--muted);
+      font-size:12.5px;
+    }
+    .fit{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    .fit .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-family:var(--mono);
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(12,18,27,.55);
+      margin-bottom:10px;
+    }
+    .pill.on{border-color:rgba(101,214,166,.45)}
+    .pill.off{border-color:rgba(255,107,107,.42)}
+    .pill.lead{border-color:rgba(118,167,255,.42)}
+    .pill.avoid{border-color:rgba(255,204,102,.35)}
+    .cta{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:12px;
+      align-items:stretch;
+      margin-top:10px;
+    }
+    .cta .action{
+      border:1px solid rgba(101,214,166,.25);
+      background:linear-gradient(180deg, rgba(101,214,166,.10), rgba(12,18,27,.55));
+      border-radius:16px;
+      padding:14px 14px;
+    }
+    .cta .action h3{
+      margin:0 0 6px;
+      font-size:15px;
+    }
+    .cta .action p{
+      margin:0;
+      color:var(--muted);
+      font-size:13.5px;
+    }
+    .cta .contact{
+      border:1px solid rgba(118,167,255,.25);
+      background:linear-gradient(180deg, rgba(118,167,255,.10), rgba(12,18,27,.55));
+      border-radius:16px;
+      padding:14px 14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      gap:10px;
+    }
+    .contact .line{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      color:var(--muted);
+      font-size:13.5px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(15,22,32,.55);
+      font-family:var(--mono);
+      font-size:12px;
+      color:rgba(233,238,247,.9);
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{border-color:rgba(255,255,255,.24)}
+    .footer{
+      margin-top:14px;
+      color:rgba(167,179,198,.85);
+      font-size:12px;
+      text-align:center;
+      opacity:.9;
+    }
+
+    @media (max-width: 920px){
+      .header-grid{grid-template-columns: 1fr; }
+      .grid{grid-template-columns: 1fr;}
+      .signals{grid-template-columns: 1fr;}
+      .two-col{grid-template-columns: 1fr;}
+      .kpi{grid-template-columns: 1fr 1fr;}
+      .fit{grid-template-columns: 1fr;}
+      .cta{grid-template-columns: 1fr;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <div class="header-grid">
+        <div>
+          <h1 class="name">rinaldo festa</h1>
+          <p class="tagline">Porto AI in produzione senza perdere affidabilità.</p>
+          <p class="micro">
+            Mi presento in modo secco (“Rinaldo, piacere”) e lavoro nello stesso modo: pochi giri di parole, molta traccia lasciata a terra.
+            Quando la tecnologia cambia le regole del lavoro, io mi metto dove fa attrito: workflow, metriche, governance, qualità.
+            Mi interessa più <span style="color:rgba(233,238,247,.92)">capire cosa sta succedendo davvero</span> che avere ragione al primo colpo.
+          </p>
+          <div class="note">
+            Nota di contesto: le risposte narrative su stress/fallimenti/conflitti qui sono mancanti (“ok”). Quello che segue è dedotto da comportamenti osservabili (scelte tecniche, risultati, post, raccomandazioni, traiettoria).
+          </div>
+        </div>
+
+        <div class="meta">
+          <div class="label">Coordinate operative</div>
+          <div class="row">
+            <span class="chip"><b>Ruolo</b> CTO</span>
+            <span class="chip"><b>Ambiente</b> remote</span>
+          </div>
+          <div class="row">
+            <span class="chip"><b>Focus</b> matching, AI, sistemi</span>
+            <span class="chip"><b>Stile</b> “messy thoughts”</span>
+          </div>
+          <div class="row">
+            <span class="chip"><b>Email</b> festarinaldo@gmail.com</span>
+          </div>
+          <div class="row">
+            <span class="chip"><b>LinkedIn</b> linkedin.com/in/rinaldofesta</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+
+      <section class="full">
+        <h2>Human Signals <span class="bar"></span></h2>
+
+        <div class="signals">
+
+          <div class="signal">
+            <div class="title">
+              <h3>Adotta presto (ma solo se può misurare)</h3>
+              <span class="tag">in produzione</span>
+            </div>
+            <p>
+              Se lavoro con te, mi vedi portare tecnologie immature (MCP) in produzione con protocolli e rischi esplicitati, non con entusiasmo generico.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Riduce il “tempo tra decisione e realtà”</h3>
+              <span class="tag">ciclo</span>
+            </div>
+            <p>
+              Il pattern è tagliare i tempi: delivery -60%, sourcing -95%. Mi interessa la latenza dell’organizzazione, non l’eleganza del piano.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Non confonde strategia con slide</h3>
+              <span class="tag">roadmap</span>
+            </div>
+            <p>
+              Una roadmap per me vale se regge budget/ROI, governance e uptime mentre scala (33k+ utenti, downtime &lt;2%).
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Parla con business senza diventare “traduttore”</h3>
+              <span class="tag">interfaccia</span>
+            </div>
+            <p>
+              Mi muovo bene con CEO/executive e con engineering: non faccio da filtro, faccio emergere vincoli e trade-off in chiaro.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Ha “taste” come barriera (anche verso gli altri)</h3>
+              <span class="tag">standard</span>
+            </div>
+            <p>
+              Se il lavoro è mediocre, lo sento subito e alzo l’asticella. È un acceleratore con chi ci sta; è attrito con chi vuole “basta che funzioni”.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Costruisce processi che restano</h3>
+              <span class="tag">metodo</span>
+            </div>
+            <p>
+              OKR, JTBD, code review, analytics: quando entro, lascio un sistema replicabile (4 business unit), non dipendenza dalla mia presenza.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Si fida dei dettagli quanto del quadro</h3>
+              <span class="tag">doppio fuoco</span>
+            </div>
+            <p>
+              La raccomandazione più ricorrente su di me è “big picture + dettagli”. Non è perfezionismo: è protezione del sistema.
+            </p>
+          </div>
+
+          <div class="signal">
+            <div class="title">
+              <h3>Disciplina “silenziosa”</h3>
+              <span class="tag">background</span>
+            </div>
+            <p>
+              Quattro anni da soldato: non lo uso come badge. Si vede nella tenuta operativa quando ci sono vincoli reali e responsabilità.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <section>
+        <h2>Come lavoro quando conta <span class="bar"></span></h2>
+
+        <div class="two-col">
+          <div class="box">
+            <h3>Decisioni</h3>
+            <ul>
+              <li>Quando la direzione è ambigua, imposto una metrica e un esperimento: preferisco sbagliare presto che “discutere bene”.</li>
+              <li>Se una scelta ha rischio sistemico, chiedo governance esplicita (chi decide, chi paga il costo, qual è il kill-switch).</li>
+              <li>La tecnologia è un mezzo: se non sposta revenue, tempo o affidabilità, per me è rumore.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <h3>Sotto pressione</h3>
+            <ul>
+              <li>Rendo quando il problema è reale e misurabile (downtime, cicli, costi): entro in modalità “riduci variabili”.</li>
+              <li>Se mi dai solo urgenza senza priorità, inizio a mettere paletti e a dire “no” — anche se è scomodo.</li>
+              <li>Non ho qui esempi narrativi diretti: deduco la tenuta da scaling + uptime e dall’adozione di tech immatura in produzione.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <h3>Disaccordi</h3>
+            <ul>
+              <li>Quando non sono d’accordo, porto il conflitto sul tavolo del “costo”: cosa succede se facciamo A vs B tra 3 mesi?</li>
+              <li>Se l’interlocutore gioca di status o di politica, perdo energia: mi serve un terreno verificabile (dati, utenti, log, margini).</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <h3>Quando qualcosa va storto</h3>
+            <ul>
+              <li>Non cerco colpevoli: cerco il punto di rottura del sistema (processo, ownership, osservabilità, incentivi).</li>
+              <li>Il mio “fix” tipico è strutturale: review, dashboard, definition of done, standard condivisi — così il problema non torna.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Proof (cose che restano) <span class="bar"></span></h2>
+
+        <div class="kpi">
+          <div class="k">
+            <div class="n">€500k → €11M</div>
+            <div class="d">Roadmap tech dichiarata come abilitatore di ~20x crescita revenue (dato riportato nel profilo).</div>
+          </div>
+          <div class="k">
+            <div class="n">&lt;2% downtime</div>
+            <div class="d">Affidabilità mantenuta mentre scala a 33.000+ utenti.</div>
+          </div>
+          <div class="k">
+            <div class="n">-60% ciclo delivery</div>
+            <div class="d">Riduzione tempi tramite pratiche engineering e code review “non negoziabili”.</div>
+          </div>
+          <div class="k">
+            <div class="n">3–5 giorni → 4 ore</div>
+            <div class="d">Sistema di matching AI che riduce drasticamente il sourcing time (-95%).</div>
+          </div>
+        </div>
+
+        <div class="two-col" style="margin-top:12px;">
+          <div class="box">
+            <h3>Scelte che dicono “come ragiono”</h3>
+            <ul>
+              <li>Contributo early a MCP e test in produzione quando molti aspettavano maturazione: preferisco guidare il design risolvendo problemi reali.</li>
+              <li>Product discipline: JTBD, discovery settimanale, analytics che informano ~85% delle decisioni di roadmap (dato riportato).</li>
+              <li>Governo più unità: metodologie e framework che scalano su 4 business unit e una struttura holding.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <h3>Prove “di mercato” fuori dalla bolla</h3>
+            <ul>
+              <li>Exit: co-fondatore agri-tech/hemp, acquisizione 100% da multinazionale canadese.</li>
+              <li>Consulenza su trasformazioni digitali in contesti enterprise (50+ paesi) con logiche di rollout/MVP.</li>
+              <li>Voce pubblica: interventi e contenuti su come si progettano algoritmi di selezione e sul rapporto AI↔lavoro.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note">
+          Dove non ho numeri: non li invento. Le parti su stress/fallimento/conflitto sono inferenze da scelte e risultati, perché le risposte narrative non sono state fornite.
+        </div>
+      </section>
+
+      <section class="full">
+        <h2>Fit Map (dove funziono / dove rompo) <span class="bar"></span></h2>
+
+        <div class="fit">
+          <div class="box">
+            <div class="pill on">Cosa mi accende</div>
+            <ul>
+              <li>Quando c’è una promessa da trasformare in sistema: “ridisegniamo il workflow” con metriche vere e responsabilità chiare.</li>
+              <li>Quando posso mettere in produzione AI senza folklore: dati, osservabilità, iterazioni, governance.</li>
+              <li>Quando il contesto è complesso (multi-team, remote, unità diverse) e serve un linguaggio comune: OKR/JTBD/standard.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <div class="pill off">Cosa mi spegne (e crea attrito)</div>
+            <ul>
+              <li>Quando “la strategia” è solo consenso: discussioni infinite senza decisione e senza misurazione.</li>
+              <li>Quando devo proteggere scelte mediocri per quieto vivere: io alzo l’asticella, e questo è polarizzante.</li>
+              <li>Quando il lavoro è guidato da politica interna più che da vincoli: divento secco e riduco interazione al minimo indispensabile.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <div class="pill lead">Leader ideale (per scegliermi)</div>
+            <ul>
+              <li>Mi dai obiettivi e vincoli, non micro-istruzioni. Poi mi chiedi “come lo sai?” e mi fai difendere le scelte con dati.</li>
+              <li>Accetti che io dica “no” e che porti trade-off espliciti, anche quando sono scomodi per la narrativa.</li>
+              <li>Ti interessa costruire un’organizzazione che regge senza eroi.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <div class="pill avoid">Leader / team che dovrebbe evitarmi</div>
+            <ul>
+              <li>Se vuoi un CTO che faccia solo delivery e non tocchi governance, priorità e qualità: non sono io.</li>
+              <li>Se confondi velocità con caos e chiedi di “correre” senza osservabilità e standard: mi avrai contro (o me ne andrò).</li>
+              <li>Se ti serve qualcuno che venda certezze: io porto ipotesi, esperimenti e responsabilità misurabile.</li>
+            </ul>
+          </div>
+
+          <div class="box full">
+            <h3 style="margin:0 0 6px;">Contesti da evitare (NO espliciti)</h3>
+            <ul style="margin:0; padding-left:18px; color:var(--muted); font-size:13px;">
+              <li>Organizzazioni dove AI è “progetto vetrina” senza owner, dati, o budget per manutenzione.</li>
+              <li>Aziende che premiano il compromesso rapido sulla qualità sistemica (debito tecnico come strategia).</li>
+              <li>Team dove il conflitto è tabù: io preferisco tensione esplicita e risolta, non passivo-aggressività.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Cosa sto cercando ora <span class="bar"></span></h2>
+        <div class="box">
+          <ul>
+            <li>Un contesto dove posso misurare impatto end-to-end: dal bisogno utente al margine, non solo output tecnico.</li>
+            <li>Autonomia vera con responsabilità vera: budget, priorità, uptime, e spazio per dire “questa scelta non regge”.</li>
+            <li>Una squadra che preferisce standard e chiarezza a eroismi e notti in bianco.</li>
+            <li>Problemi che richiedono pensiero: se devo solo “tenere acceso”, mi spengo io.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
+        <h2>Call to Action (test di fit) <span class="bar"></span></h2>
+
+        <div class="cta">
+          <div class="action">
+            <h3>Portami un caso con questi 3 numeri</h3>
+            <p>
+              Se vuoi capire se funzioniamo insieme, scrivimi includendo:
+              <span style="color:rgba(233,238,247,.92)">1)</span> una metrica che oggi ti fa male (tempo/costo/affidabilità),
+              <span style="color:rgba(233,238,247,.92)">2)</span> un vincolo non negoziabile (compliance, budget, tempi, team),
+              <span style="color:rgba(233,238,247,.92)">3)</span> il punto dove “si rompe” la collaborazione tra funzioni.
+              <br><br>
+              Se non puoi formularli in modo concreto, probabilmente non è ancora il momento giusto per lavorare con me.
+            </p>
+          </div>
+
+          <div class="contact">
+            <div>
+              <div class="line"><span class="chip"><b>Canale</b> email</span> <span style="font-family:var(--mono); color:rgba(233,238,247,.9);">festarinaldo@gmail.com</span></div>
+              <div class="line"><span class="chip"><b>Oggetto</b> “Fit test — (metrica) / (vincolo)”</span></div>
+              <div class="line" style="color:var(--faint);">
+                Mi basta una pagina. Se serve, poi facciamo 30 minuti per decidere un “next step” misurabile.
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn" href="mailto:festarinaldo@gmail.com?subject=Fit%20test%20%E2%80%94%20(metrica)%20%2F%20(vincolo)&body=Inserisci%3A%0A1)%20Metrica%20che%20fa%20male%3A%0A2)%20Vincolo%20non%20negoziabile%3A%0A3)%20Punto%20di%20rottura%20tra%20funzioni%3A%0A%0AContesto%20(5%20righe%20max)%3A%0A">Apri email pronta</a>
+              <a class="btn" href="https://www.linkedin.com/in/rinaldofesta/" target="_blank" rel="noopener">LinkedIn</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="footer">
+      Fitprint: una pagina per decidere velocemente se lavorare insieme — non un CV.
+    </div>
+  </div>
+</body>
+</html>
